@@ -4,7 +4,7 @@ class Leaderboard(object):
         self._max = max
 
     def leaders(self):
-        return self._leaders
+        return list(self._leaders)
 
     def track_score(self, score, obj):
         if len(self._leaders) < self._max:
