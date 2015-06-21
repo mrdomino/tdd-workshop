@@ -35,8 +35,8 @@ function gen_md {
       echo $commit >&2
       echo ---
       git log --format=$'# %s\n\n%b' -n 1 $commit
-      git_diff_py $commit test/test_leaderboard.py
       git_show_py $commit src/leaderboard.py
+      git_diff_py $commit test/test_leaderboard.py
       ( rm -rf "$GIT_TMP/commit" &&
         git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
         cd "$GIT_TMP/commit" &&
