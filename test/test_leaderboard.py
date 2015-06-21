@@ -42,3 +42,8 @@ class TestLeaderboard(unittest.TestCase):
     @unittest.skip('TODO: implement me')
     def test_sorts_by_score(self):
         pass
+
+    def test_leaders_is_copy(self):
+        it = leaderboard.Leaderboard()
+        it.leaders().append(object())
+        self.assertEqual(0, len(it.leaders()))
