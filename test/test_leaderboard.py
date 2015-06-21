@@ -10,3 +10,9 @@ class TestLeaderboard(unittest.TestCase):
         lb = leaderboard.Leaderboard()
         lb.track_score(5, object())
         self.assertEqual(1, len(lb.leaders()))
+
+    def test_returns_leader_object(self):
+        lb = leaderboard.Leaderboard()
+        bob = object()
+        lb.track_score(1, bob)
+        self.assertEqual(bob, lb.leaders()[0])
