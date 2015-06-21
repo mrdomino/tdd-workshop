@@ -1,6 +1,9 @@
 class Leaderboard(object):
+    def __init__(self):
+        self.x = 0
+
     def leaders(self):
-        return []
+        return range(self.x)
 
     def track_score(self, score, obj):
-        pass
+        self.x = self.x + 1
