@@ -57,3 +57,7 @@ class TestLeaderboard(unittest.TestCase):
         lb.track_score(6, dara)
         self.assertEqual(6, lb.get_score(dara))
         self.assertEqual(5, lb.get_score(bob))
+
+    @unittest.skip('TODO: implement me')
+    def test_remembers_highest_score(self):
+        pass
