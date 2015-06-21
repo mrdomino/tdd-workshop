@@ -34,3 +34,7 @@ class TestLeaderboard(unittest.TestCase):
         for i in range(6):
             lb.track_score(2, object())
         self.assertEqual(5, len(lb.leaders()))
+
+    @unittest.skip('TODO: implement me')
+    def test_max_0_is_unlimited(self):
+        pass
