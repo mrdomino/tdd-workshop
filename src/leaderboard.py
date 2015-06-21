@@ -1,5 +1,5 @@
 class Leaderboard(object):
-    def __init__(self):
+    def __init__(self, max=None):
         self._leaders = []
 
     def leaders(self):
