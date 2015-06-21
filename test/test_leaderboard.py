@@ -38,3 +38,7 @@ class TestLeaderboard(unittest.TestCase):
     @unittest.skip('TODO: implement me')
     def test_max_0_is_unlimited(self):
         pass
+
+    @unittest.skip('TODO: implement me')
+    def test_sorts_by_score(self):
+        pass
