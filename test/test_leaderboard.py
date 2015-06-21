@@ -47,3 +47,9 @@ class TestLeaderboard(unittest.TestCase):
         it = leaderboard.Leaderboard()
         it.leaders().append(object())
         self.assertEqual(0, len(it.leaders()))
+
+    def test_remembers_score(self):
+        it = leaderboard.Leaderboard()
+        bob = object()
+        it.track_score(5, bob)
+        self.assertEqual(5, it.get_score(bob))
