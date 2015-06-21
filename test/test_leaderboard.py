@@ -22,3 +22,9 @@ class TestLeaderboard(unittest.TestCase):
         for i in range(5):
             it.track_score(2, object())
             self.assertEqual(i + 1, len(it.leaders()))
+
+    def test_does_not_store_more_than_max(self):
+        it = leaderboard.Leaderboard(max=5)
+        for i in range(6):
+            it.track_score(2, object())
+        self.assertEqual(5, len(it.leaders()))
