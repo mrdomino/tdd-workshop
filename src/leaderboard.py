@@ -4,12 +4,13 @@ class Leaderboard(object):
         self._max = max
 
     def leaders(self):
-        return list(self._leaders)
+        return [x['obj'] for x in self._leaders]
 
     def track_score(self, score, obj):
         if len(self._leaders) < self._max:
-            self._leaders.append(obj)
-        self._last_score = score
+            self._leaders.append({'score': score, 'obj': obj})
 
     def get_score(self, obj):
-        return self._last_score
+        for x in self._leaders:
+            if x['obj'] == obj:
+                return x['score']

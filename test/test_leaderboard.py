@@ -51,9 +51,9 @@ class TestLeaderboard(unittest.TestCase):
     def test_remembers_score(self):
         lb = leaderboard.Leaderboard()
         bob = object()
-        lb.track_score(5, bob)
-        self.assertEqual(5, lb.get_score(bob))
-
         dara = object()
+
+        lb.track_score(5, bob)
         lb.track_score(6, dara)
         self.assertEqual(6, lb.get_score(dara))
+        self.assertEqual(5, lb.get_score(bob))
