@@ -4,6 +4,19 @@ PRES_MD=$(mktemp -t pres.md)
 GIT_TMP=$(mktemp -d /tmp/repo.XXXXXX)
 trap "rm -rf $PRES_MD $GIT_TMP" EXIT
 
+function git_diff_py {
+  local commit=$1
+  local file=$2
+  local diff=$(git diff $commit^..$commit -- $file)
+  if [ "$(git diff $commit^..$commit -- $file 2>/dev/null)" ]
+  then
+    echo $'```python'
+    echo "# $(basename $file)"
+    git diff $commit^..$commit -- $file | sed '1,5d'
+    echo $'```'
+  fi
+}
+
 function git_show_py {
   local commit=$1
   local file=$2
@@ -22,7 +35,7 @@ function gen_md {
       echo $commit >&2
       echo ---
       git log --format=$'# %s\n\n%b' -n 1 $commit
-      git_show_py $commit test/test_leaderboard.py
+      git_diff_py $commit test/test_leaderboard.py
       git_show_py $commit src/leaderboard.py
       ( rm -rf "$GIT_TMP/commit" &&
         git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
