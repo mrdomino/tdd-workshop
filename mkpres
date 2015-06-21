@@ -1,22 +1,23 @@
 #!/bin/sh
 
+PRES_MD=$(mktemp -t pres.md.XXXXXX)
+
 function gen_md {
-  { echo
-    for commit in $(git rev-list master | tail -r)
+  { for commit in $(git rev-list master | tail -r)
     do
       echo ---
       git log --format=$'# %s\n\n%b' -n 1 $commit
-      { git checkout $commit
+      { git checkout $commit >/dev/null 2>&1
         git clean -df
         echo $'```'
         nosetests 2>&1
         echo $'```'
-        git checkout $(git reflog -n2 --pretty=%H | tail -n1)
+        git checkout $(git reflog -n2 --pretty=%H | tail -n1) >/dev/null 2>&1
       }
       echo $'```python'
       echo $'# test_leaderboard.py'
       git show $commit:test/test_leaderboard.py
-      if git show $commit:src/leaderboard.py >/dev/null
+      if git show $commit:src/leaderboard.py >/dev/null 2>&1
       then
         echo $'```\n\n```python'
         echo $'# leaderboard.py'
@@ -24,18 +25,11 @@ function gen_md {
         echo $'```'
       fi
     done
-  } | sed '2d' > pres.md
-}
-
-function gen_remark {
-  sed -e '/^MARKDOWN GOES HERE$/{
-    r pres.md
-    d
-  }' ../remark/boilerplate-remote.html > remark.html
+  } | sed '1d' > $PRES_MD
 }
 
 { gen_md &&
-  vim pres.md &&
-  gen_remark &&
+  vim $PRES_MD &&
+  mv $PRES_MD pres.md
   open remark.html
 }
