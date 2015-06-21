@@ -28,3 +28,9 @@ class TestLeaderboard(unittest.TestCase):
         for i in range(6):
             it.track_score(2, object())
         self.assertEqual(5, len(it.leaders()))
+
+    def test_max_is_5_by_default(self):
+        it = leaderboard.Leaderboard()
+        for i in range(6):
+            it.track_score(2, object())
+        self.assertEqual(5, len(it.leaders()))
