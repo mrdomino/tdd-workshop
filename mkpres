@@ -56,6 +56,6 @@ function gen_md {
     r pres.md
     d
   }' remark.html > $PRES_MD &&
-  mv $PRES_MD pres.html &&
-  open pres.html
+  mv $PRES_MD index.html &&
+  open index.html
 }
