@@ -1,0 +1,41 @@
+#!/bin/sh
+
+function gen_md {
+  { echo
+    for commit in $(git rev-list master | tail -r)
+    do
+      echo ---
+      git log --format=$'# %s\n\n%b' -n 1 $commit
+      { git checkout $commit
+        git clean -df
+        echo $'```'
+        nosetests 2>&1
+        echo $'```'
+        git checkout $(git reflog -n2 --pretty=%H | tail -n1)
+      }
+      echo $'```python'
+      echo $'# test_leaderboard.py'
+      git show $commit:test/test_leaderboard.py
+      if git show $commit:src/leaderboard.py >/dev/null
+      then
+        echo $'```\n\n```python'
+        echo $'# leaderboard.py'
+        git show $commit:src/leaderboard.py
+        echo $'```'
+      fi
+    done
+  } | sed '2d' > pres.md
+}
+
+function gen_remark {
+  sed -e '/^MARKDOWN GOES HERE$/{
+    r pres.md
+    d
+  }' ../remark/boilerplate-remote.html > remark.html
+}
+
+{ gen_md &&
+  vim pres.md &&
+  gen_remark &&
+  open remark.html
+}
