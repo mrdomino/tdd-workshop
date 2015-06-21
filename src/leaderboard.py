@@ -3,7 +3,7 @@ class Leaderboard(object):
         self._x = 0
 
     def leaders(self):
-        return range(self._x)
+        return [object() for _ in range(self._x)]
 
     def track_score(self, score, obj):
         self._x = self._x + 1
