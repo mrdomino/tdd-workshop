@@ -1,35 +1,48 @@
 #!/bin/sh
 
-PRES_MD=$(mktemp -t pres.md.XXXXXX)
+PRES_MD=$(mktemp -t pres.md)
+GIT_TMP=$(mktemp -d /tmp/repo.XXXXXX)
+trap "rm -rf $PRES_MD $GIT_TMP" EXIT
+
+function git_show_py {
+  local commit=$1
+  local file=$2
+  if git show $commit:$file >/dev/null 2>&1
+  then
+    echo $'```python'
+    echo "# $(basename $file)"
+    git show $commit:$file
+    echo $'```'
+  fi
+}
 
 function gen_md {
   { for commit in $(git rev-list master | tail -r)
     do
+      echo $commit >&2
       echo ---
       git log --format=$'# %s\n\n%b' -n 1 $commit
-      { git checkout $commit >/dev/null 2>&1
-        git clean -df
+      git_show_py $commit test/test_leaderboard.py
+      git_show_py $commit src/leaderboard.py
+      ( rm -rf "$GIT_TMP/commit" &&
+        git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
+        cd "$GIT_TMP/commit" &&
+        git checkout $commit >/dev/null 2>&1 &&
         echo $'```'
         nosetests 2>&1
         echo $'```'
-        git checkout $(git reflog -n2 --pretty=%H | tail -n1) >/dev/null 2>&1
-      }
-      echo $'```python'
-      echo $'# test_leaderboard.py'
-      git show $commit:test/test_leaderboard.py
-      if git show $commit:src/leaderboard.py >/dev/null 2>&1
-      then
-        echo $'```\n\n```python'
-        echo $'# leaderboard.py'
-        git show $commit:src/leaderboard.py
-        echo $'```'
-      fi
+      )
     done
   } | sed '1d' > $PRES_MD
 }
 
 { gen_md &&
   vim $PRES_MD &&
-  mv $PRES_MD pres.md
-  open remark.html
+  cat $PRES_MD > pres.md &&
+  sed -e '/^MARKDOWN GOES HERE$/{
+    r pres.md
+    d
+  }' remark.html > $PRES_MD &&
+  mv $PRES_MD pres.html &&
+  open pres.html
 }
