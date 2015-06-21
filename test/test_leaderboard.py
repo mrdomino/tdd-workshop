@@ -16,3 +16,9 @@ class TestLeaderboard(unittest.TestCase):
         bob = object()
         lb.track_score(1, bob)
         self.assertEqual(bob, lb.leaders()[0])
+
+    def test_stores_up_to_max(self):
+        lb = leaderboard.Leaderboard(max=5)
+        for i in range(5):
+            lb.track_score(2, object())
+            self.assertEqual(i + 1, len(lb.leaders()))
