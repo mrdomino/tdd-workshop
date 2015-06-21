@@ -1,2 +1,3 @@
 class Leaderboard(object):
-    pass
+    def leaders(self):
+        pass
