@@ -4,9 +4,9 @@
     <title>My Awesome Presentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
-      @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
       body { font-family: 'Droid Serif'; }
       h1, h2, h3 {
@@ -55,7 +55,7 @@ Traceback (most recent call last):
     return self.importFromDir(dir_path, fqname)
   File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
     mod = load_module(part_fqname, fh, filename, desc)
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 2, in <module>
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 2, in <module>
     import leaderboard
 ImportError: No module named leaderboard
 
@@ -82,7 +82,7 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 6, in test_empty
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 6, in test_empty
     it = leaderboard.Leaderboard()
 AttributeError: 'module' object has no attribute 'Leaderboard'
 
@@ -111,7 +111,7 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 7, in test_empty
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 7, in test_empty
     self.assertEqual(0, len(it.leaders()))
 AttributeError: 'Leaderboard' object has no attribute 'leaders'
 
@@ -141,12 +141,12 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 7, in test_empty
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 7, in test_empty
     self.assertEqual(0, len(it.leaders()))
 TypeError: object of type 'NoneType' has no len()
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.004s
+Ran 1 test in 0.007s
 
 FAILED (errors=1)
 ```
@@ -197,7 +197,7 @@ class Leaderboard(object):
 ERROR: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
     it.track_score(5, object())
 AttributeError: 'Leaderboard' object has no attribute 'track_score'
 
@@ -226,12 +226,12 @@ class Leaderboard(object):
 FAIL: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
     self.assertEqual(1, len(it.leaders()))
 AssertionError: 1 != 0
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 0.004s
 
 FAILED (failures=1)
 ```
@@ -255,7 +255,7 @@ class Leaderboard(object):
 ```
 ..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.004s
+Ran 2 tests in 0.005s
 
 OK
 ```
@@ -294,12 +294,12 @@ class Leaderboard(object):
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
     self.assertEqual(bob, it.leaders()[0])
-AssertionError: <object object at 0x109442170> != 0
+AssertionError: <object object at 0x10a120170> != 0
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.006s
+Ran 3 tests in 0.004s
 
 FAILED (failures=1)
 ```
@@ -326,9 +326,9 @@ class Leaderboard(object):
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
     self.assertEqual(bob, it.leaders()[0])
-AssertionError: <object object at 0x10a3c4170> != <object object at 0x10a3c4180>
+AssertionError: <object object at 0x10184a170> != <object object at 0x10184a180>
 
 ----------------------------------------------------------------------
 Ran 3 tests in 0.004s
@@ -392,12 +392,12 @@ class Leaderboard(object):
 ERROR: test_stores_up_to_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
     it = leaderboard.Leaderboard(max=5)
 TypeError: __init__() got an unexpected keyword argument 'max'
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.004s
+Ran 4 tests in 0.005s
 
 FAILED (errors=1)
 ```
@@ -458,7 +458,7 @@ F....
 FAIL: test_does_not_store_more_than_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
     self.assertEqual(5, len(it.leaders()))
 AssertionError: 5 != 6
 
@@ -488,7 +488,7 @@ class Leaderboard(object):
 ```
 .....
 ----------------------------------------------------------------------
-Ran 5 tests in 0.005s
+Ran 5 tests in 0.006s
 
 OK
 ```
@@ -528,7 +528,7 @@ class Leaderboard(object):
 FAIL: test_max_is_5_by_default (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
     self.assertEqual(5, len(it.leaders()))
 AssertionError: 5 != 6
 
@@ -558,7 +558,7 @@ class Leaderboard(object):
 ```
 ......
 ----------------------------------------------------------------------
-Ran 6 tests in 0.005s
+Ran 6 tests in 0.006s
 
 OK
 ```
@@ -708,7 +708,7 @@ class Leaderboard(object):
 ERROR: test_remembers_score (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5KBFJI/commit/test/test_leaderboard.py", line 55, in test_remembers_score
+  File "/private/tmp/repo.9iKtVO/commit/test/test_leaderboard.py", line 55, in test_remembers_score
     self.assertEqual(5, it.get_score(bob))
 AttributeError: 'Leaderboard' object has no attribute 'get_score'
 
@@ -828,7 +828,7 @@ class Leaderboard(object):
 ```
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.006s
+Ran 10 tests in 0.005s
 
 OK (SKIP=2)
 ```
@@ -900,7 +900,7 @@ Ran 11 tests in 0.006s
 OK (SKIP=3)
 ```
     </textarea>
-    <script src="http://gnab.github.io/remark/downloads/remark-0.5.9.min.js" type="text/javascript">
+    <script src="https://gnab.github.io/remark/downloads/remark-0.5.9.min.js" type="text/javascript">
     </script>
     <script type="text/javascript">
         var slideshow = remark.create();
