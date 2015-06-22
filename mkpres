@@ -12,7 +12,7 @@ function git_diff_py {
   then
     echo $'```python'
     echo "# $(basename $file)"
-    git diff $commit^..$commit -- $file | sed '1,5d'
+    git diff $commit^..$commit -- $file | sed '1,4d' | sed '/^@@.*@@$/d'
     echo $'```'
   fi
 }
@@ -29,23 +29,53 @@ function git_show_py {
   fi
 }
 
+function echo_nose {
+  local commit=$1
+  ( rm -rf "$GIT_TMP/commit" &&
+    git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
+    cd "$GIT_TMP/commit" &&
+    git checkout $commit >/dev/null 2>&1 &&
+    echo $'```'
+    nosetests 2>&1
+    echo $'```'
+  )
+}
+
+function gen_code_a {
+  local commit=$1
+  git_show_py $commit src/leaderboard.py
+  git_show_py $commit test/test_leaderboard.py
+}
+
+function gen_code_b {
+  local commit=$1
+  git_show_py $commit src/leaderboard.py
+  git_diff_py $commit test/test_leaderboard.py
+}
+
+function gen_code_c {
+  local commit=$1
+  git_diff_py $commit src/leaderboard.py
+  git_diff_py $commit test/test_leaderboard.py
+}
+
+function gen {
+  local fn=$1
+  local range=$2
+  for commit in $(git rev-list $range | tail -r)
+  do
+    echo $commit >&2
+    echo ---
+    git log --format=$'# %s\n\n%b' -n 1 $commit
+    $fn $commit
+    echo_nose $commit
+  done
+}
+
 function gen_md {
-  { for commit in $(git rev-list master | tail -r)
-    do
-      echo $commit >&2
-      echo ---
-      git log --format=$'# %s\n\n%b' -n 1 $commit
-      git_show_py $commit src/leaderboard.py
-      git_diff_py $commit test/test_leaderboard.py
-      ( rm -rf "$GIT_TMP/commit" &&
-        git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
-        cd "$GIT_TMP/commit" &&
-        git checkout $commit >/dev/null 2>&1 &&
-        echo $'```'
-        nosetests 2>&1
-        echo $'```'
-      )
-    done
+  { gen gen_code_a ..gen-a
+    gen gen_code_b gen-a..gen-b
+    gen gen_code_c gen-b..master
   } | sed '1d' > $PRES_MD
 }
 
