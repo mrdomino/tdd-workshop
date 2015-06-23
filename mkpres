@@ -80,7 +80,16 @@ function gen_md {
   } | sed '1d' > $PRES_MD
 }
 
-{ gen_md &&
+function do_tags {
+  git tag -d gen-a gen-b
+  git tag gen-a \
+    $(git log --grep='Yay, our first passing test!' master --format='%H')
+  git tag gen-b \
+    $(git log --grep='Hopefully a stricter test' master --format='%H')
+}
+
+{ do_tags &&
+  gen_md &&
   vim $PRES_MD &&
   cat $PRES_MD > pres.md &&
   sed -e '/^MARKDOWN GOES HERE$/{
