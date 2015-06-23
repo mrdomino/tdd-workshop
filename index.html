@@ -22,9 +22,10 @@
 
 
 ```
+$ nosetests
 
 ----------------------------------------------------------------------
-Ran 0 tests in 0.000s
+Ran 0 tests in 0.001s
 
 OK
 ```
@@ -39,10 +40,11 @@ import leaderboard
 
 class TestLeaderboard(unittest.TestCase):
     def test_empty(self):
-        it = leaderboard.Leaderboard()
-        self.assertEqual(0, len(it.leaders()))
+        lb = leaderboard.Leaderboard()
+        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 E
 ======================================================================
 ERROR: Failure: ImportError (No module named leaderboard)
@@ -54,23 +56,19 @@ Traceback (most recent call last):
     return self.importFromDir(dir_path, fqname)
   File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
     mod = load_module(part_fqname, fh, filename, desc)
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 2, in <module>
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 2, in <module>
     import leaderboard
 ImportError: No module named leaderboard
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.003s
+Ran 1 test in 0.044s
 
 FAILED (errors=1)
 ```
 ---
 # Create leaderboard.py
 
-Now the error message is different:
-
-    AttributeError: 'module' object has no attribute 'Leaderboard'
-
-Let's make one.
+Just do the obvious thing to fix that error. Now we have a new one…
 
 ```python
 # leaderboard.py
@@ -82,32 +80,29 @@ import leaderboard
 
 class TestLeaderboard(unittest.TestCase):
     def test_empty(self):
-        it = leaderboard.Leaderboard()
-        self.assertEqual(0, len(it.leaders()))
+        lb = leaderboard.Leaderboard()
+        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 E
 ======================================================================
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 6, in test_empty
-    it = leaderboard.Leaderboard()
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 6, in test_empty
+    lb = leaderboard.Leaderboard()
 AttributeError: 'module' object has no attribute 'Leaderboard'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.005s
+Ran 1 test in 0.031s
 
 FAILED (errors=1)
 ```
 ---
 # Getting closer
 
-Now we see this:
-
-    AttributeError: 'Leaderboard' object has no attribute 'leaders'
-
-Let's fix that.
+We have a `Leaderboard` now! But the test is still failing...
 
 ```python
 # leaderboard.py
@@ -121,32 +116,30 @@ import leaderboard
 
 class TestLeaderboard(unittest.TestCase):
     def test_empty(self):
-        it = leaderboard.Leaderboard()
-        self.assertEqual(0, len(it.leaders()))
+        lb = leaderboard.Leaderboard()
+        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 E
 ======================================================================
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 7, in test_empty
-    self.assertEqual(0, len(it.leaders()))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 7, in test_empty
+    self.assertEqual(0, len(lb.leaders()))
 AttributeError: 'Leaderboard' object has no attribute 'leaders'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.004s
+Ran 1 test in 0.013s
 
 FAILED (errors=1)
 ```
 ---
 # Still closer
 
-And now:
-
-    TypeError: object of type 'NoneType' has no len()
-
-So let's give it something with a len().
+nose is telling us that `leaders` needs to return something with a
+len(). What's the simplest possible thing we could do to make it happy?
 
 ```python
 # leaderboard.py
@@ -161,21 +154,22 @@ import leaderboard
 
 class TestLeaderboard(unittest.TestCase):
     def test_empty(self):
-        it = leaderboard.Leaderboard()
-        self.assertEqual(0, len(it.leaders()))
+        lb = leaderboard.Leaderboard()
+        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 E
 ======================================================================
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 7, in test_empty
-    self.assertEqual(0, len(it.leaders()))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 7, in test_empty
+    self.assertEqual(0, len(lb.leaders()))
 TypeError: object of type 'NoneType' has no len()
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.004s
+Ran 1 test in 0.007s
 
 FAILED (errors=1)
 ```
@@ -197,13 +191,14 @@ import leaderboard
 
 class TestLeaderboard(unittest.TestCase):
     def test_empty(self):
-        it = leaderboard.Leaderboard()
-        self.assertEqual(0, len(it.leaders()))
+        lb = leaderboard.Leaderboard()
+        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.004s
+Ran 1 test in 0.007s
 
 OK
 ```
@@ -223,26 +218,27 @@ class Leaderboard(object):
 # test_leaderboard.py
 @@ -5,3 +5,8 @@ class TestLeaderboard(unittest.TestCase):
      def test_empty(self):
-         it = leaderboard.Leaderboard()
-         self.assertEqual(0, len(it.leaders()))
+         lb = leaderboard.Leaderboard()
+         self.assertEqual(0, len(lb.leaders()))
 +
 +    def test_has_one_leader(self):
-+        it = leaderboard.Leaderboard()
-+        it.track_score(5, object())
-+        self.assertEqual(1, len(it.leaders()))
++        lb = leaderboard.Leaderboard()
++        lb.track_score(5, object())
++        self.assertEqual(1, len(lb.leaders()))
 ```
 ```
+$ nosetests
 .E
 ======================================================================
 ERROR: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
-    it.track_score(5, object())
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
+    lb.track_score(5, object())
 AttributeError: 'Leaderboard' object has no attribute 'track_score'
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 0.011s
 
 FAILED (errors=1)
 ```
@@ -261,17 +257,18 @@ class Leaderboard(object):
         pass
 ```
 ```
+$ nosetests
 .F
 ======================================================================
 FAIL: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
-    self.assertEqual(1, len(it.leaders()))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
+    self.assertEqual(1, len(lb.leaders()))
 AssertionError: 1 != 0
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.004s
+Ran 2 tests in 0.008s
 
 FAILED (failures=1)
 ```
@@ -284,18 +281,19 @@ But it's still not doing what we want...
 # leaderboard.py
 class Leaderboard(object):
     def __init__(self):
-        self.x = 0
+        self._x = 0
 
     def leaders(self):
-        return range(self.x)
+        return range(self._x)
 
     def track_score(self, score, obj):
-        self.x = self.x + 1
+        self._x = self._x + 1
 ```
 ```
+$ nosetests
 ..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 0.008s
 
 OK
 ```
@@ -308,39 +306,40 @@ We want this test to work, but let's make sure.
 # leaderboard.py
 class Leaderboard(object):
     def __init__(self):
-        self.x = 0
+        self._x = 0
 
     def leaders(self):
-        return range(self.x)
+        return range(self._x)
 
     def track_score(self, score, obj):
-        self.x = self.x + 1
+        self._x = self._x + 1
 ```
 ```python
 # test_leaderboard.py
 @@ -10,3 +10,9 @@ class TestLeaderboard(unittest.TestCase):
-         it = leaderboard.Leaderboard()
-         it.track_score(5, object())
-         self.assertEqual(1, len(it.leaders()))
+         lb = leaderboard.Leaderboard()
+         lb.track_score(5, object())
+         self.assertEqual(1, len(lb.leaders()))
 +
 +    def test_returns_leader_object(self):
-+        it = leaderboard.Leaderboard()
++        lb = leaderboard.Leaderboard()
 +        bob = object()
-+        it.track_score(1, bob)
-+        self.assertEqual(bob, it.leaders()[0])
++        lb.track_score(1, bob)
++        self.assertEqual(bob, lb.leaders()[0])
 ```
 ```
+$ nosetests
 ..F
 ======================================================================
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
-    self.assertEqual(bob, it.leaders()[0])
-AssertionError: <object object at 0x10d9cf170> != 0
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+    self.assertEqual(bob, lb.leaders()[0])
+AssertionError: <object object at 0x106b82170> != 0
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.004s
+Ran 3 tests in 0.014s
 
 FAILED (failures=1)
 ```
@@ -352,27 +351,28 @@ The test will only pass if we make `leaders` return what we gave it.
 ```python
 # leaderboard.py
 @@ -3,7 +3,7 @@ class Leaderboard(object):
-         self.x = 0
+         self._x = 0
  
      def leaders(self):
--        return range(self.x)
-+        return [object() for _ in range(self.x)]
+-        return range(self._x)
++        return [object() for _ in range(self._x)]
  
      def track_score(self, score, obj):
-         self.x = self.x + 1
+         self._x = self._x + 1
 ```
 ```
+$ nosetests
 ..F
 ======================================================================
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
-    self.assertEqual(bob, it.leaders()[0])
-AssertionError: <object object at 0x10b734170> != <object object at 0x10b734180>
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+    self.assertEqual(bob, lb.leaders()[0])
+AssertionError: <object object at 0x100709170> != <object object at 0x100709180>
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.005s
+Ran 3 tests in 0.007s
 
 FAILED (failures=1)
 ```
@@ -384,21 +384,22 @@ FAILED (failures=1)
 # leaderboard.py
  class Leaderboard(object):
      def __init__(self):
--        self.x = 0
+-        self._x = 0
 +        self._leaders = []
  
      def leaders(self):
--        return [object() for _ in range(self.x)]
+-        return [object() for _ in range(self._x)]
 +        return self._leaders
  
      def track_score(self, score, obj):
--        self.x = self.x + 1
+-        self._x = self._x + 1
 +        self._leaders.append(obj)
 ```
 ```
+$ nosetests
 ...
 ----------------------------------------------------------------------
-Ran 3 tests in 0.004s
+Ran 3 tests in 0.026s
 
 OK
 ```
@@ -410,27 +411,28 @@ OK
 # test_leaderboard.py
 @@ -16,3 +16,9 @@ class TestLeaderboard(unittest.TestCase):
          bob = object()
-         it.track_score(1, bob)
-         self.assertEqual(bob, it.leaders()[0])
+         lb.track_score(1, bob)
+         self.assertEqual(bob, lb.leaders()[0])
 +
 +    def test_stores_up_to_max(self):
-+        it = leaderboard.Leaderboard(max=5)
++        lb = leaderboard.Leaderboard(max=5)
 +        for i in range(5):
-+            it.track_score(2, object())
-+            self.assertEqual(i + 1, len(it.leaders()))
++            lb.track_score(2, object())
++            self.assertEqual(i + 1, len(lb.leaders()))
 ```
 ```
+$ nosetests
 ...E
 ======================================================================
 ERROR: test_stores_up_to_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
-    it = leaderboard.Leaderboard(max=5)
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
+    lb = leaderboard.Leaderboard(max=5)
 TypeError: __init__() got an unexpected keyword argument 'max'
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.005s
+Ran 4 tests in 0.010s
 
 FAILED (errors=1)
 ```
@@ -448,9 +450,10 @@ FAILED (errors=1)
      def leaders(self):
 ```
 ```
+$ nosetests
 ....
 ----------------------------------------------------------------------
-Ran 4 tests in 0.004s
+Ran 4 tests in 0.033s
 
 OK
 ```
@@ -462,27 +465,28 @@ OK
 # test_leaderboard.py
 @@ -22,3 +22,9 @@ class TestLeaderboard(unittest.TestCase):
          for i in range(5):
-             it.track_score(2, object())
-             self.assertEqual(i + 1, len(it.leaders()))
+             lb.track_score(2, object())
+             self.assertEqual(i + 1, len(lb.leaders()))
 +
 +    def test_does_not_store_more_than_max(self):
-+        it = leaderboard.Leaderboard(max=5)
++        lb = leaderboard.Leaderboard(max=5)
 +        for i in range(6):
-+            it.track_score(2, object())
-+        self.assertEqual(5, len(it.leaders()))
++            lb.track_score(2, object())
++        self.assertEqual(5, len(lb.leaders()))
 ```
 ```
+$ nosetests
 F....
 ======================================================================
 FAIL: test_does_not_store_more_than_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
-    self.assertEqual(5, len(it.leaders()))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
+    self.assertEqual(5, len(lb.leaders()))
 AssertionError: 5 != 6
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.005s
+Ran 5 tests in 0.008s
 
 FAILED (failures=1)
 ```
@@ -506,9 +510,10 @@ FAILED (failures=1)
 +            self._leaders.append(obj)
 ```
 ```
+$ nosetests
 .....
 ----------------------------------------------------------------------
-Ran 5 tests in 0.005s
+Ran 5 tests in 0.009s
 
 OK
 ```
@@ -520,27 +525,28 @@ OK
 # test_leaderboard.py
 @@ -28,3 +28,9 @@ class TestLeaderboard(unittest.TestCase):
          for i in range(6):
-             it.track_score(2, object())
-         self.assertEqual(5, len(it.leaders()))
+             lb.track_score(2, object())
+         self.assertEqual(5, len(lb.leaders()))
 +
 +    def test_max_is_5_by_default(self):
-+        it = leaderboard.Leaderboard()
++        lb = leaderboard.Leaderboard()
 +        for i in range(6):
-+            it.track_score(2, object())
-+        self.assertEqual(5, len(it.leaders()))
++            lb.track_score(2, object())
++        self.assertEqual(5, len(lb.leaders()))
 ```
 ```
+$ nosetests
 ...F..
 ======================================================================
 FAIL: test_max_is_5_by_default (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
-    self.assertEqual(5, len(it.leaders()))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
+    self.assertEqual(5, len(lb.leaders()))
 AssertionError: 5 != 6
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.006s
+Ran 6 tests in 0.032s
 
 FAILED (failures=1)
 ```
@@ -565,9 +571,10 @@ FAILED (failures=1)
              self._leaders.append(obj)
 ```
 ```
+$ nosetests
 ......
 ----------------------------------------------------------------------
-Ran 6 tests in 0.005s
+Ran 6 tests in 0.018s
 
 OK
 ```
@@ -579,17 +586,18 @@ OK
 # test_leaderboard.py
 @@ -34,3 +34,7 @@ class TestLeaderboard(unittest.TestCase):
          for i in range(6):
-             it.track_score(2, object())
-         self.assertEqual(5, len(it.leaders()))
+             lb.track_score(2, object())
+         self.assertEqual(5, len(lb.leaders()))
 +
 +    @unittest.skip('TODO: implement me')
 +    def test_max_0_is_unlimited(self):
 +        pass
 ```
 ```
+$ nosetests
 ...S...
 ----------------------------------------------------------------------
-Ran 7 tests in 0.006s
+Ran 7 tests in 0.014s
 
 OK (SKIP=1)
 ```
@@ -609,9 +617,10 @@ OK (SKIP=1)
 +        pass
 ```
 ```
+$ nosetests
 ...S..S.
 ----------------------------------------------------------------------
-Ran 8 tests in 0.006s
+Ran 8 tests in 0.048s
 
 OK (SKIP=2)
 ```
@@ -642,14 +651,15 @@ demonstration.
          pass
 +
 +    def test_leaders_is_copy(self):
-+        it = leaderboard.Leaderboard()
-+        it.leaders().append(object())
-+        self.assertEqual(0, len(it.leaders()))
++        lb = leaderboard.Leaderboard()
++        lb.leaders().append(object())
++        self.assertEqual(0, len(lb.leaders()))
 ```
 ```
+$ nosetests
 ....S..S.
 ----------------------------------------------------------------------
-Ran 9 tests in 0.005s
+Ran 9 tests in 0.015s
 
 OK (SKIP=2)
 ```
@@ -661,28 +671,29 @@ This test might make it easier to do `test_sorts_by_score`.
 ```python
 # test_leaderboard.py
 @@ -47,3 +47,9 @@ class TestLeaderboard(unittest.TestCase):
-         it = leaderboard.Leaderboard()
-         it.leaders().append(object())
-         self.assertEqual(0, len(it.leaders()))
+         lb = leaderboard.Leaderboard()
+         lb.leaders().append(object())
+         self.assertEqual(0, len(lb.leaders()))
 +
 +    def test_remembers_score(self):
-+        it = leaderboard.Leaderboard()
++        lb = leaderboard.Leaderboard()
 +        bob = object()
-+        it.track_score(5, bob)
-+        self.assertEqual(5, it.get_score(bob))
++        lb.track_score(5, bob)
++        self.assertEqual(5, lb.get_score(bob))
 ```
 ```
+$ nosetests
 ....S.E.S.
 ======================================================================
 ERROR: test_remembers_score (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.rUyfPf/commit/test/test_leaderboard.py", line 55, in test_remembers_score
-    self.assertEqual(5, it.get_score(bob))
+  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 55, in test_remembers_score
+    self.assertEqual(5, lb.get_score(bob))
 AttributeError: 'Leaderboard' object has no attribute 'get_score'
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.005s
+Ran 10 tests in 0.020s
 
 FAILED (SKIP=2, errors=1)
 ```
@@ -702,9 +713,10 @@ Remember, always do the minimum to make the test pass!
 +        return 5
 ```
 ```
+$ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.005s
+Ran 10 tests in 0.015s
 
 OK (SKIP=2)
 ```
@@ -729,17 +741,18 @@ This makes our tests more robust.
 # test_leaderboard.py
 @@ -53,3 +53,7 @@ class TestLeaderboard(unittest.TestCase):
          bob = object()
-         it.track_score(5, bob)
-         self.assertEqual(5, it.get_score(bob))
+         lb.track_score(5, bob)
+         self.assertEqual(5, lb.get_score(bob))
 +
 +        dara = object()
-+        it.track_score(6, dara)
-+        self.assertEqual(6, it.get_score(dara))
++        lb.track_score(6, dara)
++        self.assertEqual(6, lb.get_score(dara))
 ```
 ```
+$ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.006s
+Ran 10 tests in 0.016s
 
 OK (SKIP=2)
 ```
@@ -773,22 +786,23 @@ We can almost do `test_sorts_by_score`, but this seems inefficient.
 # test_leaderboard.py
 @@ -51,9 +51,9 @@ class TestLeaderboard(unittest.TestCase):
      def test_remembers_score(self):
-         it = leaderboard.Leaderboard()
+         lb = leaderboard.Leaderboard()
          bob = object()
--        it.track_score(5, bob)
--        self.assertEqual(5, it.get_score(bob))
+-        lb.track_score(5, bob)
+-        self.assertEqual(5, lb.get_score(bob))
 -
          dara = object()
 +
-+        it.track_score(5, bob)
-         it.track_score(6, dara)
-         self.assertEqual(6, it.get_score(dara))
-+        self.assertEqual(5, it.get_score(bob))
++        lb.track_score(5, bob)
+         lb.track_score(6, dara)
+         self.assertEqual(6, lb.get_score(dara))
++        self.assertEqual(5, lb.get_score(bob))
 ```
 ```
+$ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.008s
+Ran 10 tests in 0.027s
 
 OK (SKIP=2)
 ```
@@ -821,9 +835,10 @@ We know we haven't broken anything; the tests still pass!
 +        return self._leaders[obj]
 ```
 ```
+$ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.006s
+Ran 10 tests in 0.022s
 
 OK (SKIP=2)
 ```
@@ -834,18 +849,19 @@ OK (SKIP=2)
 ```python
 # test_leaderboard.py
 @@ -57,3 +57,7 @@ class TestLeaderboard(unittest.TestCase):
-         it.track_score(6, dara)
-         self.assertEqual(6, it.get_score(dara))
-         self.assertEqual(5, it.get_score(bob))
+         lb.track_score(6, dara)
+         self.assertEqual(6, lb.get_score(dara))
+         self.assertEqual(5, lb.get_score(bob))
 +
 +    @unittest.skip('TODO: implement me')
 +    def test_remembers_highest_score(self):
 +        pass
 ```
 ```
+$ nosetests
 ....S.S..S.
 ----------------------------------------------------------------------
-Ran 11 tests in 0.005s
+Ran 11 tests in 0.011s
 
 OK (SKIP=3)
 ```
