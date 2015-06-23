@@ -36,6 +36,7 @@ function echo_nose {
     cd "$GIT_TMP/commit" &&
     git checkout $commit >/dev/null 2>&1 &&
     echo $'```'
+    echo $'$ nosetests'
     nosetests 2>&1
     echo $'```'
   )
