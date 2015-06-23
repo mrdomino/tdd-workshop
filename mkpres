@@ -29,7 +29,7 @@ function git_show_py {
   fi
 }
 
-function echo_nose {
+function show_nose {
   local commit=$1
   ( rm -rf "$GIT_TMP/commit" &&
     git clone --reference "$PWD" "$PWD" "$GIT_TMP/commit" >/dev/null 2>&1 &&
@@ -37,7 +37,7 @@ function echo_nose {
     git checkout $commit >/dev/null 2>&1 &&
     echo $'```'
     echo $'$ nosetests'
-    nosetests 2>&1
+    nosetests 2>&1 | sed 's/^\(.*Error:\)/*\1/'
     echo $'```'
   )
 }
@@ -69,7 +69,7 @@ function gen {
     echo ---
     git log --format=$'# %s\n\n%b' -n 1 $commit
     $fn $commit
-    echo_nose $commit
+    show_nose $commit
   done
 }
 

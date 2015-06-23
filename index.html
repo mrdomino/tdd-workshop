@@ -56,12 +56,12 @@ Traceback (most recent call last):
     return self.importFromDir(dir_path, fqname)
   File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
     mod = load_module(part_fqname, fh, filename, desc)
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 2, in <module>
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 2, in <module>
     import leaderboard
-ImportError: No module named leaderboard
+*ImportError: No module named leaderboard
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.044s
+Ran 1 test in 0.021s
 
 FAILED (errors=1)
 ```
@@ -90,12 +90,12 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 6, in test_empty
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 6, in test_empty
     lb = leaderboard.Leaderboard()
-AttributeError: 'module' object has no attribute 'Leaderboard'
+*AttributeError: 'module' object has no attribute 'Leaderboard'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.031s
+Ran 1 test in 0.014s
 
 FAILED (errors=1)
 ```
@@ -126,12 +126,12 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 7, in test_empty
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 7, in test_empty
     self.assertEqual(0, len(lb.leaders()))
-AttributeError: 'Leaderboard' object has no attribute 'leaders'
+*AttributeError: 'Leaderboard' object has no attribute 'leaders'
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.013s
+Ran 1 test in 0.027s
 
 FAILED (errors=1)
 ```
@@ -164,12 +164,12 @@ E
 ERROR: test_empty (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 7, in test_empty
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 7, in test_empty
     self.assertEqual(0, len(lb.leaders()))
-TypeError: object of type 'NoneType' has no len()
+*TypeError: object of type 'NoneType' has no len()
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.007s
+Ran 1 test in 0.014s
 
 FAILED (errors=1)
 ```
@@ -198,7 +198,7 @@ class TestLeaderboard(unittest.TestCase):
 $ nosetests
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.007s
+Ran 1 test in 0.013s
 
 OK
 ```
@@ -233,12 +233,12 @@ $ nosetests
 ERROR: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 11, in test_has_one_leader
     lb.track_score(5, object())
-AttributeError: 'Leaderboard' object has no attribute 'track_score'
+*AttributeError: 'Leaderboard' object has no attribute 'track_score'
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.011s
+Ran 2 tests in 0.022s
 
 FAILED (errors=1)
 ```
@@ -263,12 +263,12 @@ $ nosetests
 FAIL: test_has_one_leader (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 12, in test_has_one_leader
     self.assertEqual(1, len(lb.leaders()))
-AssertionError: 1 != 0
+*AssertionError: 1 != 0
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.008s
+Ran 2 tests in 0.010s
 
 FAILED (failures=1)
 ```
@@ -293,7 +293,7 @@ class Leaderboard(object):
 $ nosetests
 ..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.008s
+Ran 2 tests in 0.007s
 
 OK
 ```
@@ -334,12 +334,12 @@ $ nosetests
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
     self.assertEqual(bob, lb.leaders()[0])
-AssertionError: <object object at 0x106b82170> != 0
+*AssertionError: <object object at 0x1023cb170> != 0
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.014s
+Ran 3 tests in 0.030s
 
 FAILED (failures=1)
 ```
@@ -367,12 +367,12 @@ $ nosetests
 FAIL: test_returns_leader_object (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 18, in test_returns_leader_object
     self.assertEqual(bob, lb.leaders()[0])
-AssertionError: <object object at 0x100709170> != <object object at 0x100709180>
+*AssertionError: <object object at 0x105d27170> != <object object at 0x105d27180>
 
 ----------------------------------------------------------------------
-Ran 3 tests in 0.007s
+Ran 3 tests in 0.008s
 
 FAILED (failures=1)
 ```
@@ -399,7 +399,7 @@ FAILED (failures=1)
 $ nosetests
 ...
 ----------------------------------------------------------------------
-Ran 3 tests in 0.026s
+Ran 3 tests in 0.010s
 
 OK
 ```
@@ -427,12 +427,12 @@ $ nosetests
 ERROR: test_stores_up_to_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 21, in test_stores_up_to_max
     lb = leaderboard.Leaderboard(max=5)
-TypeError: __init__() got an unexpected keyword argument 'max'
+*TypeError: __init__() got an unexpected keyword argument 'max'
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.010s
+Ran 4 tests in 0.008s
 
 FAILED (errors=1)
 ```
@@ -453,7 +453,7 @@ FAILED (errors=1)
 $ nosetests
 ....
 ----------------------------------------------------------------------
-Ran 4 tests in 0.033s
+Ran 4 tests in 0.026s
 
 OK
 ```
@@ -481,12 +481,12 @@ F....
 FAIL: test_does_not_store_more_than_max (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 30, in test_does_not_store_more_than_max
     self.assertEqual(5, len(lb.leaders()))
-AssertionError: 5 != 6
+*AssertionError: 5 != 6
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.008s
+Ran 5 tests in 0.011s
 
 FAILED (failures=1)
 ```
@@ -513,7 +513,7 @@ FAILED (failures=1)
 $ nosetests
 .....
 ----------------------------------------------------------------------
-Ran 5 tests in 0.009s
+Ran 5 tests in 0.015s
 
 OK
 ```
@@ -541,12 +541,12 @@ $ nosetests
 FAIL: test_max_is_5_by_default (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 36, in test_max_is_5_by_default
     self.assertEqual(5, len(lb.leaders()))
-AssertionError: 5 != 6
+*AssertionError: 5 != 6
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.032s
+Ran 6 tests in 0.011s
 
 FAILED (failures=1)
 ```
@@ -574,7 +574,7 @@ FAILED (failures=1)
 $ nosetests
 ......
 ----------------------------------------------------------------------
-Ran 6 tests in 0.018s
+Ran 6 tests in 0.012s
 
 OK
 ```
@@ -597,7 +597,7 @@ OK
 $ nosetests
 ...S...
 ----------------------------------------------------------------------
-Ran 7 tests in 0.014s
+Ran 7 tests in 0.012s
 
 OK (SKIP=1)
 ```
@@ -620,7 +620,7 @@ OK (SKIP=1)
 $ nosetests
 ...S..S.
 ----------------------------------------------------------------------
-Ran 8 tests in 0.048s
+Ran 8 tests in 0.015s
 
 OK (SKIP=2)
 ```
@@ -659,7 +659,7 @@ demonstration.
 $ nosetests
 ....S..S.
 ----------------------------------------------------------------------
-Ran 9 tests in 0.015s
+Ran 9 tests in 0.009s
 
 OK (SKIP=2)
 ```
@@ -688,12 +688,12 @@ $ nosetests
 ERROR: test_remembers_score (test_leaderboard.TestLeaderboard)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/private/tmp/repo.5jydPN/commit/test/test_leaderboard.py", line 55, in test_remembers_score
+  File "/private/tmp/repo.edcIBn/commit/test/test_leaderboard.py", line 55, in test_remembers_score
     self.assertEqual(5, lb.get_score(bob))
-AttributeError: 'Leaderboard' object has no attribute 'get_score'
+*AttributeError: 'Leaderboard' object has no attribute 'get_score'
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.020s
+Ran 10 tests in 0.074s
 
 FAILED (SKIP=2, errors=1)
 ```
@@ -716,7 +716,7 @@ Remember, always do the minimum to make the test pass!
 $ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.015s
+Ran 10 tests in 0.034s
 
 OK (SKIP=2)
 ```
@@ -752,7 +752,7 @@ This makes our tests more robust.
 $ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.016s
+Ran 10 tests in 0.028s
 
 OK (SKIP=2)
 ```
@@ -802,7 +802,7 @@ We can almost do `test_sorts_by_score`, but this seems inefficient.
 $ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.027s
+Ran 10 tests in 0.023s
 
 OK (SKIP=2)
 ```
@@ -838,7 +838,7 @@ We know we haven't broken anything; the tests still pass!
 $ nosetests
 ....S...S.
 ----------------------------------------------------------------------
-Ran 10 tests in 0.022s
+Ran 10 tests in 0.018s
 
 OK (SKIP=2)
 ```
@@ -861,15 +861,17 @@ OK (SKIP=2)
 $ nosetests
 ....S.S..S.
 ----------------------------------------------------------------------
-Ran 11 tests in 0.011s
+Ran 11 tests in 0.042s
 
 OK (SKIP=3)
 ```
     </textarea>
-    <script src="https://gnab.github.io/remark/downloads/remark-0.5.9.min.js" type="text/javascript">
+    <script src="https://gnab.github.io/remark/downloads/remark-0.11.0.min.js" type="text/javascript">
     </script>
     <script type="text/javascript">
-        var slideshow = remark.create();
+        var slideshow = remark.create({
+            highlightLines: true
+        });
     </script>
   </body>
 </html>
